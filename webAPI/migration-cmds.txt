@@ -1,0 +1,5 @@
+# migrationcmds
+* To run migrations open tools>NuGet package manager>package manager console
+* run `add-migration`
+* Fill in the name of the migration e.g. "initial-migration"
+* Then run `update-database` to apply the migration
