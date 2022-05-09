@@ -2,7 +2,7 @@
  * Used to make a connection to a database, query and persist data to the DB
  */
 using Microsoft.EntityFrameworkCore;
-using webAPI.Models;
+using webAPI.Models.Domain;
 
 namespace webAPI.Data
 {

@@ -1,8 +1,8 @@
-﻿namespace webAPI.Models
+﻿namespace webAPI.Models.Domain
 {
     public class Region
     {
-        public Guid Id { get; set; }
+        public Guid RegionId { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
         public double Area { get; set; }

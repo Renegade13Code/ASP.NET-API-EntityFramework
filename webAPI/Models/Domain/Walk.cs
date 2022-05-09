@@ -1,4 +1,4 @@
-﻿namespace webAPI.Models
+﻿namespace webAPI.Models.Domain
 {
     public class Walk
     {

@@ -2,6 +2,7 @@
 //First a builder(design patterns) is instantiated
 using Microsoft.EntityFrameworkCore;
 using webAPI.Data;
+using webAPI.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,12 @@ builder.Services.AddDbContext<NZWalksDbContext>(options =>
     // UseSqlServer takes the connection string to the database as its argument. Here the connection string is grabed from the appsettings.json file via the builder object.
     options.UseSqlServer(builder.Configuration.GetConnectionString("NZWalks")); 
 });
+
+//This registers the RegionRepository class within services. It tells dotnet that whenever IRegionRepository is specified, it should instantiate and inject the RegionRepository class
+builder.Services.AddScoped<IRegionRepository, RegionRepository>();
+
+//Add the regions profile to services for automapping. It takes an assembly as its argument, and uses that assembly to scan all the profiles
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 var app = builder.Build();
 
