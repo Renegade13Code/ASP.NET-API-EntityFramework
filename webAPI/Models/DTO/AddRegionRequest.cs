@@ -1,8 +1,7 @@
 ﻿namespace webAPI.Models.DTO
 {
-    public class Region
+    public class AddRegionRequest
     {
-        public Guid Id { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
         public double Area { get; set; }

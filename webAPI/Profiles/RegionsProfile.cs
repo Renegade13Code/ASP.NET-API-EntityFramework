@@ -10,7 +10,7 @@ namespace webAPI.Profiles
             //CreateMap<Models.Domain.Region, Models.DTO.Region>();
 
             //The ForMember method specifies how src field maps to destination field. The ReverseMap method allows for mapping in reverse if needed.
-            CreateMap<Models.Domain.Region, Models.DTO.Region>()
+            CreateMap<Models.Domain.Region, Models.DTO.RegionDTO>()
                 .ForMember(dest => dest.Id, options => options.MapFrom(src => src.RegionId))
                 .ReverseMap();
         }
