@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Services are used to register dependencies, and perform dependecy injection within the project 
 // Inject dependencies into the builder
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -23,8 +23,9 @@ builder.Services.AddDbContext<NZWalksDbContext>(options =>
 
 //This registers the RegionRepository class within services. It tells dotnet that whenever IRegionRepository is specified, it should instantiate and inject the RegionRepository class
 builder.Services.AddScoped<IRegionRepository, RegionRepository>();
+builder.Services.AddScoped<IWalkRepository, WalkRepository>();
 
-//Add the regions profile to services for automapping. It takes an assembly as its argument, and uses that assembly to scan all the profiles
+//Add the regions/walks profile to services for automapping. It takes an assembly as its argument, and uses that assembly to scan all the profiles
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 var app = builder.Build();

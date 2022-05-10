@@ -125,7 +125,8 @@ namespace webAPI.Controllers
 
         [HttpPut]
         [Route("{id:guid}")]
-        public async Task<IActionResult> UpdateAsync(Guid id, UpdateRegionRequest updateRegionRequest)
+        // The fromRoute and fromBody decorators are there to be more explicit about where the data comes from
+        public async Task<IActionResult> UpdateAsync([FromRoute]Guid id, [FromBody]UpdateRegionRequest updateRegionRequest)
         {
             // DTO to domain
             Region region = new Region()
