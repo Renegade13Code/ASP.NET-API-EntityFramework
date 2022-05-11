@@ -24,10 +24,10 @@ namespace webAPI.Controllers
         public async Task<IActionResult> AddAsync([FromBody] AddWalkDifficultyRequest walkDiff)
         {
             //Validate request
-            if (!ValidateAddAsync(walkDiff))
-            {
-                return BadRequest(ModelState);
-            }
+            //if (!ValidateAddAsync(walkDiff))
+            //{
+            //    return BadRequest(ModelState);
+            //}
 
             WalkDifficulty walkDiffDomain = await walkDiffRepo.AddAsync(new WalkDifficulty() { Code = walkDiff.Code });
             WalkDifficultyDTO walkDiffDTO = mapper.Map<WalkDifficultyDTO>(walkDiffDomain);
@@ -63,10 +63,10 @@ namespace webAPI.Controllers
         public async Task<IActionResult> UpdateAsync([FromRoute]Guid id,[FromBody] UpdateWalkDifficultyRequest walkDiff)
         {
             //Validate request
-            if (!ValidateUpdateAsync(walkDiff))
-            {
-                return BadRequest(ModelState);
-            }
+            //if (!ValidateUpdateAsync(walkDiff))
+            //{
+            //    return BadRequest(ModelState);
+            //}
 
             WalkDifficulty? walkDiffDomain = new WalkDifficulty()
             {

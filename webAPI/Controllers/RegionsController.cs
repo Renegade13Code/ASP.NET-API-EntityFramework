@@ -79,11 +79,12 @@ namespace webAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> AddAsync(AddRegionRequest addRegionRequest)
         {
+            //Dont need this as FluentValidation is used
             //Validate the Request passed by the client
-            if (!ValidateAddAsync(addRegionRequest))
-            {
-                return BadRequest(ModelState);
-            }
+            //if (!ValidateAddAsync(addRegionRequest))
+            //{
+            //    return BadRequest(ModelState);
+            //}
 
             // Request(DTO) to domain model
             Region regionDomain = new Region()
@@ -137,10 +138,10 @@ namespace webAPI.Controllers
         public async Task<IActionResult> UpdateAsync([FromRoute]Guid id, [FromBody]UpdateRegionRequest updateRegionRequest)
         {
             //Validate incoming request 
-            if (!ValidateUpdateAsync(updateRegionRequest))
-            {
-                return BadRequest(ModelState);
-            }
+            //if (!ValidateUpdateAsync(updateRegionRequest))
+            //{
+            //    return BadRequest(ModelState);
+            //}
 
             // DTO to domain
             Region region = new Region()

@@ -1,0 +1,8 @@
+# Packages installed via nuget:
+Microsoft.EntityFrameworkCore.SqlServer
+Microsoft.EntityFrameworkCore.Tools
+AutoMapper
+AutoMapper.Extensions.Microsoft.DependencyInjection
+FluentValidation
+FluentValidation.AspNetCore
+FluentValidation.DependencyInjectionExtensions

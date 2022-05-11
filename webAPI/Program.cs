@@ -1,5 +1,6 @@
 //This file is the entry point to the project
 //First a builder(design patterns) is instantiated
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using webAPI.Data;
 using webAPI.Repository;
@@ -13,6 +14,10 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//This will add fluent validation
+builder.Services
+    .AddFluentValidation(options => options.RegisterValidatorsFromAssemblyContaining<Program>());
 
 //Register the dbContext as a dependency for dependency injection
 builder.Services.AddDbContext<NZWalksDbContext>(options =>
