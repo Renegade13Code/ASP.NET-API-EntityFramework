@@ -3,7 +3,7 @@
     public class Region
     {
         public Guid RegionId { get; set; }
-        public string Code { get; set; }
+        public String Code { get; set; }
         public string Name { get; set; }
         public double Area { get; set; }
         public double Lat { get; set; }

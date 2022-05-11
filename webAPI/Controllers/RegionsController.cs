@@ -24,6 +24,7 @@ namespace webAPI.Controllers
         }
 
         [HttpGet]
+        //This endpoint doesnt need validation as it does not receive data from the client
         public async Task<IActionResult> GetAllAsync()
         {
             //List<Region> regions = this._regionRepository.GetAll();
@@ -60,6 +61,7 @@ namespace webAPI.Controllers
         [HttpGet]
         // Route parameter specifies that the id must be a guid or it will not be accepted
         [Route("{id:guid}")]
+        //Using the 'Guid' type ensures that the client passes a valid id
         public async Task<IActionResult> Get(Guid id)
         {
             var region = await this.regionRepository.GetAsync(id);
@@ -77,6 +79,12 @@ namespace webAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> AddAsync(AddRegionRequest addRegionRequest)
         {
+            //Validate the Request passed by the client
+            if (!ValidateAddAsync(addRegionRequest))
+            {
+                return BadRequest(ModelState);
+            }
+
             // Request(DTO) to domain model
             Region regionDomain = new Region()
             {
@@ -128,6 +136,12 @@ namespace webAPI.Controllers
         // The fromRoute and fromBody decorators are there to be more explicit about where the data comes from
         public async Task<IActionResult> UpdateAsync([FromRoute]Guid id, [FromBody]UpdateRegionRequest updateRegionRequest)
         {
+            //Validate incoming request 
+            if (!ValidateUpdateAsync(updateRegionRequest))
+            {
+                return BadRequest(ModelState);
+            }
+
             // DTO to domain
             Region region = new Region()
             {
@@ -151,6 +165,101 @@ namespace webAPI.Controllers
 
             return Ok(regionDTO);
         }
+
+        #region private methods
+
+        private bool ValidateAddAsync(AddRegionRequest addRegionRequest)
+        {
+
+            if (addRegionRequest == null)
+            {
+                ModelState.AddModelError(nameof(AddRegionRequest), $"{nameof(AddRegionRequest)} object is empty");
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(addRegionRequest.Code))
+            {
+                ModelState.AddModelError(nameof(AddRegionRequest.Code), $"Region {nameof(AddRegionRequest.Code)} cannot be null, whitespace or empty");
+            }
+
+            if (string.IsNullOrWhiteSpace(addRegionRequest.Name))
+            {
+                ModelState.AddModelError(nameof(AddRegionRequest.Name), $"Region {nameof(AddRegionRequest.Name)} cannot be null, whitespace or empty");
+            }
+
+            if (addRegionRequest.Area <= 0)
+            {
+                ModelState.AddModelError(nameof(AddRegionRequest.Area), $"Region {nameof(AddRegionRequest.Area)} must be greater than zero");
+            }
+
+            if (addRegionRequest.Lat >= 90 || addRegionRequest.Lat <= -90)
+            {
+                ModelState.AddModelError(nameof(AddRegionRequest.Lat), $"Region {nameof(AddRegionRequest.Lat)} must be smaller than 90 and greater than -90");
+            }
+
+            if (addRegionRequest.Long >= 180 || addRegionRequest.Long <= -180)
+            {
+                ModelState.AddModelError(nameof(AddRegionRequest.Long), $"Region {nameof(AddRegionRequest.Long)} must be smaller than 90 and greater than -90");
+            }
+
+            if (addRegionRequest.Population < 0)
+            {
+                ModelState.AddModelError(nameof(AddRegionRequest.Population), $"Region {nameof(AddRegionRequest.Population)} must be a positive integer");
+            }
+
+            if(ModelState.ErrorCount > 0)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private bool ValidateUpdateAsync(UpdateRegionRequest updateRegionRequest)
+        {
+            if (updateRegionRequest == null)
+            {
+                ModelState.AddModelError(nameof(updateRegionRequest), $"{nameof(AddRegionRequest)} object is empty");
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(updateRegionRequest.Code))
+            {
+                ModelState.AddModelError(nameof(updateRegionRequest.Code), $"Region { nameof(AddRegionRequest.Code)} cannot be null, whitespace or empty");
+            }
+
+            if (string.IsNullOrWhiteSpace(updateRegionRequest.Name))
+            {
+                ModelState.AddModelError(nameof(updateRegionRequest.Name), $"Region { nameof(AddRegionRequest.Name)} cannot be null, whitespace or empty");
+            }
+
+            if (updateRegionRequest.Area <= 0)
+            {
+                ModelState.AddModelError(nameof(updateRegionRequest.Area), $"Region { nameof(AddRegionRequest.Area)} must be greater than zero");
+            }
+
+            if (updateRegionRequest.Lat >= 90 || updateRegionRequest.Lat <= -90)
+            {
+                ModelState.AddModelError(nameof(updateRegionRequest.Lat), $"Region { nameof(AddRegionRequest.Lat)} must be smaller than 90 and greater than -90");
+            }
+
+            if (updateRegionRequest.Long >= 180 || updateRegionRequest.Long <= -180)
+            {
+                ModelState.AddModelError(nameof(updateRegionRequest.Long), $"Region { nameof(AddRegionRequest.Long)} must be smaller than 90 and greater than -90");
+            }
+
+            if (updateRegionRequest.Population < 0)
+            {
+                ModelState.AddModelError(nameof(updateRegionRequest.Population), $"Region { nameof(AddRegionRequest.Population)} must be a positive integer");
+            }
+
+            if (ModelState.ErrorCount > 0)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        #endregion
 
         //This code was auto-generated with API controller with read/write actions template
         //// GET: api/<RegionsController>
