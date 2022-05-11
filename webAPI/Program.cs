@@ -24,6 +24,7 @@ builder.Services.AddDbContext<NZWalksDbContext>(options =>
 //This registers the RegionRepository class within services. It tells dotnet that whenever IRegionRepository is specified, it should instantiate and inject the RegionRepository class
 builder.Services.AddScoped<IRegionRepository, RegionRepository>();
 builder.Services.AddScoped<IWalkRepository, WalkRepository>();
+builder.Services.AddScoped<IWalkDifficultyRepository, WalkDifficultyRepository>();
 
 //Add the regions/walks profile to services for automapping. It takes an assembly as its argument, and uses that assembly to scan all the profiles
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
