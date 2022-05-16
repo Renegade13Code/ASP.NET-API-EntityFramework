@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using webAPI.Models.Domain;
 using webAPI.Models.DTO;
@@ -11,7 +12,7 @@ using webAPI.Repository;
 namespace webAPI.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
+    [ApiController] 
     public class RegionsController : Controller
     {
         private readonly IRegionRepository regionRepository;
@@ -24,6 +25,7 @@ namespace webAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "reader")]
         //This endpoint doesnt need validation as it does not receive data from the client
         public async Task<IActionResult> GetAllAsync()
         {
@@ -59,6 +61,7 @@ namespace webAPI.Controllers
         } 
 
         [HttpGet]
+        [Authorize(Roles = "reader")]
         // Route parameter specifies that the id must be a guid or it will not be accepted
         [Route("{id:guid}")]
         //Using the 'Guid' type ensures that the client passes a valid id
@@ -77,6 +80,7 @@ namespace webAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "writer")]
         public async Task<IActionResult> AddAsync(AddRegionRequest addRegionRequest)
         {
             //Dont need this as FluentValidation is used
@@ -117,6 +121,7 @@ namespace webAPI.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "writer")]
         [Route("{id:guid}")]
         public async Task<IActionResult> DeleteAsync(Guid id)
         {
@@ -133,6 +138,7 @@ namespace webAPI.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "writer")]
         [Route("{id:guid}")]
         // The fromRoute and fromBody decorators are there to be more explicit about where the data comes from
         public async Task<IActionResult> UpdateAsync([FromRoute]Guid id, [FromBody]UpdateRegionRequest updateRegionRequest)

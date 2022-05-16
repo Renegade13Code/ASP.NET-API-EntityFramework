@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using webAPI.Models.Domain;
 using webAPI.Models.DTO;
@@ -25,6 +26,7 @@ namespace webAPI.Controllers
 
         [HttpGet]
         [ActionName("get-all")]
+        [Authorize(Roles = "reader")]
         public async Task<IActionResult> GetAllAsync()
         {
             // Fetch all walks
@@ -40,6 +42,7 @@ namespace webAPI.Controllers
         [HttpGet]
         [Route("{id:guid}")]
         [ActionName("GetAsync")]
+        [Authorize(Roles = "reader")]
         public async Task<IActionResult> GetAsync(Guid id)
         {
             Walk? walk = await walkRepository.GetAsync(id);
@@ -55,6 +58,7 @@ namespace webAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "writer")]
         public async Task<IActionResult> AddAsync([FromBody]AddWalkRequest walk)
         {
             // Validate request
@@ -88,6 +92,7 @@ namespace webAPI.Controllers
         // must retrun added at action
         [HttpPut]
         [Route("{id:guid}")]
+        [Authorize(Roles = "writer")]
         public async Task<IActionResult> UpdateAsync([FromRoute]Guid id, [FromBody]UpdateWalkRequest walk)
         {
             // Validate request
@@ -123,6 +128,7 @@ namespace webAPI.Controllers
 
         [HttpDelete]
         [Route("{id:guid}")]
+        [Authorize(Roles = "writer")]
         public async Task<IActionResult> DeleteAsync([FromRoute]Guid id)
         {
             //Remove and return entity

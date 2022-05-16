@@ -12,8 +12,8 @@ using webAPI.Data;
 namespace webAPI.Migrations
 {
     [DbContext(typeof(NZWalksDbContext))]
-    [Migration("20220508073236_Region id name change")]
-    partial class Regionidnamechange
+    [Migration("20220516095021_First migration")]
+    partial class Firstmigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,6 +53,73 @@ namespace webAPI.Migrations
                     b.HasKey("RegionId");
 
                     b.ToTable("Regions");
+                });
+
+            modelBuilder.Entity("webAPI.Models.Domain.Role", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("webAPI.Models.Domain.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("EmailAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("webAPI.Models.Domain.User_Role", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserRoles");
                 });
 
             modelBuilder.Entity("webAPI.Models.Domain.Walk", b =>
@@ -98,6 +165,25 @@ namespace webAPI.Migrations
                     b.ToTable("WalkDifficulty");
                 });
 
+            modelBuilder.Entity("webAPI.Models.Domain.User_Role", b =>
+                {
+                    b.HasOne("webAPI.Models.Domain.Role", "Role")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("webAPI.Models.Domain.User", "User")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("webAPI.Models.Domain.Walk", b =>
                 {
                     b.HasOne("webAPI.Models.Domain.Region", "Region")
@@ -120,6 +206,16 @@ namespace webAPI.Migrations
             modelBuilder.Entity("webAPI.Models.Domain.Region", b =>
                 {
                     b.Navigation("Walks");
+                });
+
+            modelBuilder.Entity("webAPI.Models.Domain.Role", b =>
+                {
+                    b.Navigation("UserRoles");
+                });
+
+            modelBuilder.Entity("webAPI.Models.Domain.User", b =>
+                {
+                    b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
         }
